@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: django-flask-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: django.local  # django.local 호스트로 오면
+    http:
+      paths:
+      - path: /test01(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: django-service # django-service로
+            port:
+              number: 80
+  - host: flask.local   # flask.local 호스트로 오면
+    http:
+      paths:
+      - path: /test02(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: flask-service  # flask-service로
+            port:
+              number: 80
