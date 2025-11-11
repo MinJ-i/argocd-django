@@ -1,38 +1,38 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deploy-django
+  name: deploy-django
 spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: web-deploy
-  template:
-    metadata:
-      labels:
-        app.kubernetes.io/name: web-deploy
-    spec:
-      containers:
-        - name: nginx-d
-          image: minji14/mynginxd:0.3
-          ports:
-            - containerPort: 80
+  replicas: 5 # <--- 3에서 5로 수정
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: web-deploy
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: web-deploy
+    spec:
+      containers:
+        - name: nginx-d
+          image: nginx:1.25 # <--- minji14/mynginxd:0.3에서 nginx:1.25로 수정
+          ports:
+            - containerPort: 80
 
-        - name: django-web
-          image: minji14/mydjango:0.2
-          ports:
-            - containerPort: 8000
+        - name: django-web
+          image: minji14/mydjango:0.2 # <--- 이 부분은 실습 내용에 없으므로 그대로 둡니다.
+          ports:
+            - containerPort: 8000
 
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 8000
-            initialDelaySeconds: 5
-            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 5
 
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 8000
-            initialDelaySeconds: 15
-            periodSeconds: 20
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 20
