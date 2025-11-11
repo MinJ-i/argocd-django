@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: django-service
 spec:
-  type: ClusterIP
+  type: NodePort   # ✅ 수정
   selector:
     app.kubernetes.io/name: web-deploy
   ports:
@@ -11,3 +11,4 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 8000
+      nodePort: 32235   # ✅ 추가 (원하는 포트, 예: 32235)
