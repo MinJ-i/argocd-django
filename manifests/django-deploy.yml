@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: deploy-django
+  namespace: default
 spec:
   replicas: 5 # <--- 3에서 5로 수정
   selector:
